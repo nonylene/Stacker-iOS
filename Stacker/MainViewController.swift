@@ -27,10 +27,31 @@ class MainViewController: UIViewController, UISearchBarDelegate {
 
     func searchBarSearchButtonClicked(searchBar: UISearchBar) {
         let searchText = searchBar.text
-        let alert = UIAlertController(title: "your text", message: searchText, preferredStyle: .Alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
-        self.presentViewController(alert, animated: true, completion: nil)
-        
+
+        let url = "https://api.stackexchange.com/2.2/search?order=desc&sort=activity&intitle=" + searchText!.stringByAddingPercentEncodingWithAllowedCharacters(.URLQueryAllowedCharacterSet())! + "&site=stackoverflow&filter=!-*f(6pnztD5P"
+
+        let request = NSMutableURLRequest(URL: NSURL(string: url)!)
+        NSURLSession.sharedSession().dataTaskWithRequest(request, completionHandler:  {data, response, error in
+            // main thread
+            dispatch_async(dispatch_get_main_queue(), {
+                var errorMessage: String?
+                if let error = error {
+                    errorMessage = error.localizedDescription
+                } else if (response as! NSHTTPURLResponse).statusCode / 100 != 2 {
+                    errorMessage = NSString(data: data!, encoding: NSUTF8StringEncoding)! as String
+                }
+                if let message = errorMessage {
+                    let alert = UIAlertController(title: "Failed...", message: message, preferredStyle: .Alert)
+                    alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
+                    self.presentViewController(alert, animated: true, completion: nil)
+                } else {
+                    let message = NSString(data: data!, encoding: NSUTF8StringEncoding)! as String
+                    let alert = UIAlertController(title: "Success", message: message, preferredStyle: .Alert)
+                    alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
+                    self.presentViewController(alert, animated: true, completion: nil)
+                }
+            })
+        }).resume()
     }
 
 
