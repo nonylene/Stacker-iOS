@@ -28,7 +28,7 @@ class MainViewController: UIViewController, UISearchBarDelegate {
     func searchBarSearchButtonClicked(searchBar: UISearchBar) {
         let searchText = searchBar.text
 
-        let url = "https://api.stackexchange.com/2.2/search?order=desc&sort=activity&intitle=" + searchText!.stringByAddingPercentEncodingWithAllowedCharacters(.URLQueryAllowedCharacterSet())! + "&site=stackoverflow&filter=!-*f(6pnztD5P"
+        let url = "https://api.stackexchange.com/2.2/search?order=desc&sort=activity&intitle=" + searchText!.stringByAddingPercentEncodingWithAllowedCharacters(.URLQueryAllowedCharacterSet())! + "&site=stackoverflow&filter=!6JEajsykLFu3W"
 
         let request = NSMutableURLRequest(URL: NSURL(string: url)!)
         NSURLSession.sharedSession().dataTaskWithRequest(request, completionHandler:  {data, response, error in
