@@ -46,8 +46,10 @@ class MainViewController: UIViewController, UISearchBarDelegate {
                     self.presentViewController(alert, animated: true, completion: nil)
                 } else {
                     let dict = try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers) as! NSDictionary as! [String: AnyObject]
-                    let message = dict["items"]![0]!["title"]!?.description
-                    let alert = UIAlertController(title: "Success", message: message, preferredStyle: .Alert)
+                    let questions = (dict["items"] as! [[String: AnyObject]]).map{ item -> Question in
+                        Question(dict: item)
+                    }
+                    let alert = UIAlertController(title: "Success", message: questions[0].title, preferredStyle: .Alert)
                     alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
                     self.presentViewController(alert, animated: true, completion: nil)
                 }
