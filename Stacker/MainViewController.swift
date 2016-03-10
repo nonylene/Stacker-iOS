@@ -75,6 +75,15 @@ class MainViewController: UIViewController, UISearchBarDelegate, UITableViewDele
         return cell
     }
 
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        let question = questions[indexPath.row]
+        questionTableView.deselectRowAtIndexPath(indexPath, animated: true)
+        let url = NSURL(string: question.link)!
+        if UIApplication.sharedApplication().canOpenURL(url){
+            UIApplication.sharedApplication().openURL(url)
+        }
+    }
+
     /*
     // MARK: - Navigation
 
