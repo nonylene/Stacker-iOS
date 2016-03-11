@@ -26,9 +26,21 @@ class QuestionTableViewCell: UITableViewCell {
     private func setQuestion(question: Question) {
         countLabel.text = String(question.upVoteCount)
         checkImageView.hidden = !question.isAnswered
-        titleLabel.text = question.title
+
+        // convert html to string
+        let titleAttrStr = try! NSAttributedString(
+            data: question.title.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)!,
+            options: [ NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType],
+            documentAttributes: nil)
+        titleLabel.text = titleAttrStr.string
+
         tagLabel.text = question.tags.joinWithSeparator(" ")
-        bodyLabel.text = question.body
+
+        let bodyAttrStr = try! NSAttributedString(
+            data: question.body.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)!,
+            options: [ NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType],
+            documentAttributes: nil)
+        bodyLabel.text = bodyAttrStr.string
 
         let date_formatter: NSDateFormatter = NSDateFormatter()
         date_formatter.locale = NSLocale(localeIdentifier: "ja")
