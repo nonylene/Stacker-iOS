@@ -19,11 +19,11 @@ class QuestionTableViewCell: UITableViewCell {
 
     var question: Question? {
         didSet {
-            setQuestion(question!)
+            bindQuestion(question!)
         }
     }
 
-    private func setQuestion(question: Question) {
+    private func bindQuestion(question: Question) {
         countLabel.text = String(question.upVoteCount)
         checkImageView.hidden = !question.isAnswered
 
