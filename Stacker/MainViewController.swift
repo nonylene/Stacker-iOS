@@ -34,8 +34,7 @@ class MainViewController: UIViewController, UISearchBarDelegate, UITableViewDele
 
         let url = "https://api.stackexchange.com/2.2/search?order=desc&sort=activity&intitle=" + searchText!.stringByAddingPercentEncodingWithAllowedCharacters(.URLQueryAllowedCharacterSet())! + "&site=stackoverflow&filter=!6JEajsykLFu3W"
 
-        let request = NSMutableURLRequest(URL: NSURL(string: url)!)
-        NSURLSession.sharedSession().dataTaskWithRequest(request, completionHandler:  {data, response, error in
+        NSURLSession.sharedSession().dataTaskWithURL(NSURL(string: url)!, completionHandler:  {data, response, error in
             // main thread
             dispatch_async(dispatch_get_main_queue(), {
                 var errorMessage: String?
